@@ -1,0 +1,48 @@
+'===================================================
+' Cálculo del Indice de Masa Corporal
+'===================================================
+
+'Definimos título de la ventana
+TextWindow.Title = "Calculadora del IMC"
+
+'Definimos color de la fuente
+TextWindow.ForegroundColor = "Green"
+
+'Identificamos al usuario
+TextWindow.Write("Ingrese su nombre: ") 
+nombre = TextWindow.Read() 'Leer 
+TextWindow.WriteLine("Hola " + nombre)
+
+'Solicitamos datos
+TextWindow.Write("Ingrese su altura en metros: ")
+ 
+altura = TextWindow.ReadNumber()
+ 
+TextWindow.Write("Ingrese su peso en kilogramos: ")
+ 
+peso = TextWindow.ReadNumber() 
+
+'Calculamos el IMC
+
+'imc = peso/(altura*altura)
+
+'imc = peso/Math.Power(altura, 2)
+
+'Math.Round(valor)
+
+imc = Math.Round(peso/Math.Power(altura, 2))
+
+TextWindow.WriteLine(nombre+ ". Su IMC es: " + imc)
+
+'Análsis de resultado
+If (imc<18.5) Then
+  TextWindow.WriteLine("Bajo peso y riesgo cardiovascular mínimo")
+ElseIf (imc>18.5 and imc<24.9) Then
+  TextWindow.WriteLine("Peso Normal y riesgo cardiovascular promedio")
+ElseIf (imc>25 and imc<29.9) Then
+  TextWindow.WriteLine("Sobrepeso y riesgo cardiovascular levemente aumentado")  
+ElseIf (imc>30) Then
+  TextWindow.WriteLine("Obesidad y riesgo cardiovascular aumentado")  
+Endif
+ 
+TextWindow.WriteLine("Fin")
