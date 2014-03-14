@@ -1,0 +1,103 @@
+'===================================================
+' Cálculo del Indice de Masa Corporal
+'===================================================
+
+'Definimos configuración de la ventana
+
+configuracion() 'Llamado a la subrutina configuración()
+
+'Título del programa
+
+titulo()
+
+'Identificamos al usuario
+
+TextWindow.WriteLine("") 'Colocamos un línea de espacio en blnaco
+TextWindow.Write("Ingrese su nombre: ") 
+nombre = TextWindow.Read() 'Leer 
+TextWindow.WriteLine("")
+TextWindow.WriteLine("Hola " + nombre)
+
+'Solicitamos datos
+
+TextWindow.WriteLine("")
+TextWindow.Write("Ingrese su altura en metros: ")
+ 
+altura = TextWindow.ReadNumber()
+ 
+TextWindow.WriteLine("")
+TextWindow.Write("Ingrese su peso en kilogramos: ")
+ 
+peso = TextWindow.ReadNumber() 
+
+fecha= Clock.Date 'Asignamos la fecha del sistema
+hora = Clock.Time 'Asignamos la hora del sistema
+
+TextWindow.Clear() 'Limpiamos la pantalla
+
+titulo()
+
+'Calculamos el IMC
+
+calculo_imc()
+
+'Mostramos resultados en pantalla
+
+TextWindow.WriteLine("")
+TextWindow.WriteLine(nombre)
+TextWindow.WriteLine("")
+TextWindow.WriteLine("Hoy: " +fecha+ "  " +hora)
+TextWindow.WriteLine("")
+TextWindow.WriteLine("Su IMC es: " + imc)
+
+'Entrega de resultados
+
+TextWindow.WriteLine("")
+TextWindow.WriteLine("El diagnóstco es:")
+TextWindow.WriteLine("")
+
+Analiza_datos()
+
+'Cierre de programa
+
+Program.Delay(6000) 'Damos una pausa de 6 milisegundos
+Program.End()       'Finalizamos el programa
+
+'===================================================
+
+'Subrutina de configuración de la ventana
+
+Sub configuracion
+  TextWindow.Title = "Calculadora del IMC"
+  TextWindow.ForegroundColor = "Red"
+  TextWindow.BackgroundColor = "Black"
+  'TextWindow.Clear()
+EndSub
+
+'Subrutina para el título del programa
+
+Sub titulo
+ TextWindow.WriteLine("")
+ TextWindow.WriteLine("Cálculo del Indice de Masa Corporal")
+ TextWindow.WriteLine("===================================") 
+EndSub
+ 
+'Subrutina calculo de IMC
+ 
+Sub calculo_imc
+  imc = Math.Round(peso/Math.Power(altura, 2)) 
+EndSub 
+
+'Subrutina para el análsis de resultado
+
+Sub Analiza_datos
+  If (imc<=18.5) Then
+   TextWindow.WriteLine("Bajo peso y riesgo cardiovascular mínimo")
+  ElseIf (imc>18.5 and imc<=24.9) Then
+    TextWindow.WriteLine("Peso Normal y riesgo cardiovascular promedio")
+  ElseIf (imc>=25 and imc<=29.9) Then
+    TextWindow.WriteLine("Sobrepeso y riesgo cardiovascular levemente aumentado")  
+  ElseIf (imc>=30) Then
+    TextWindow.WriteLine("Obesidad y riesgo cardiovascular aumentado")  
+  Endif 
+EndSub
