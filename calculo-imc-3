@@ -44,9 +44,9 @@ For i = 1 To 3 'Con este ciclo For ingresaremos 5 lecturas
 EndFor
 
 'Cálculo de valores promedios
-p  = sumapeso/5 'peso
-ps = sumapsisto/5 'presión sistólica
-pd = sumapdiasto/5 'presión diastólica
+p  = sumapeso/3 'peso
+ps = sumapsisto/3 'presión sistólica
+pd = sumapdiasto/3 'presión diastólica
 
 TextWindow.Clear()
 
