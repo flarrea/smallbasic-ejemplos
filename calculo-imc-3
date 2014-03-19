@@ -1,0 +1,160 @@
+'===================================================
+' Cálculo del Indice de Masa Corporal
+'===================================================
+
+'Definimos configuración de la ventana
+
+configuracion() 'Llamado a la subrutina configuración()
+
+'Título del programa
+
+titulo() 'Llamado a la subrutina configuración()
+
+
+TextWindow.Write("Altura en metros: ")
+altura = TextWindow.ReadNumber()
+
+TextWindow.Clear() ' Limpiamos la pantalla
+
+TextWindow.WriteLine("")
+TextWindow.Write("Los registros durante 3 semanas. ")
+TextWindow.WriteLine("")
+
+For i = 1 To 3 'Con este ciclo For ingresaremos 5 lecturas
+  
+    TextWindow.WriteLine("")
+    TextWindow.WriteLine("Semana " + i + ": ")
+    TextWindow.WriteLine("")  
+    
+    'Definición de la matriz usuario para almacenar las mediciones
+    TextWindow.Write("Escriba su peso: ") 
+    usuario[i]["peso"] = TextWindow.ReadNumber() 'Lee el peso y lo almacena en la matriz o array usuario
+    TextWindow.Write("Escriba su presión sistólica: ") 
+    usuario[i]["psisto"] = TextWindow.ReadNumber() 'Lee la presión sistólica y la almacena 
+    TextWindow.Write("Escriba su presión diastólica: ") 
+    usuario[i]["pdiasto"] = TextWindow.ReadNumber() 'Lee la presión diastólica y la almacena 
+
+    'Cálculo de la suma de los valores durante las tres semanas
+    sumapeso = sumapeso + usuario[i]["peso"]
+    sumapsisto = sumapsisto + usuario[i]["psisto"]
+    sumapdiasto = sumapdiasto + usuario[i]["pdiasto"]
+
+    TextWindow.Clear()
+
+EndFor
+
+'Cálculo de valores promedios
+p  = sumapeso/5 'peso
+ps = sumapsisto/5 'presión sistólica
+pd = sumapdiasto/5 'presión diastólica
+
+TextWindow.Clear()
+
+TextWindow.WriteLine("===================================================")
+TextWindow.WriteLine("")
+TextWindow.WriteLine("Resultados.")
+TextWindow.WriteLine("")
+
+'Cálculo del Índice de Masa Corporal
+calculo_imc()
+
+'Presentación de resultados
+TextWindow.WriteLine("")
+TextWindow.Write("IMC en Kgrs/m2: ")
+TextWindow.WriteLine(imc)
+
+TextWindow.WriteLine("")
+TextWindow.Write("Presión Sistólica: ")
+TextWindow.WriteLine(ps)
+
+TextWindow.WriteLine("")
+TextWindow.Write("Presión Diastólica: ")
+TextWindow.WriteLine(pd)
+
+TextWindow.WriteLine("")
+TextWindow.Write("Diagnóstico: ")
+TextWindow.WriteLine("")
+
+'Análsis de resultado IMC
+analizadatos_imc()
+
+'Análsis de resultado presión sistólica
+analizadatos_ps()
+  
+'Análsis de resultado presión diastólica
+analizadatos_pd()
+
+TextWindow.WriteLine("")
+TextWindow.WriteLine("=======================FIN=========================")
+
+'===================================================
+
+'Subrutina de configuración de la ventana
+
+Sub configuracion
+  TextWindow.Title = "Calculadora del IMC"
+  TextWindow.ForegroundColor = "Red"
+  TextWindow.BackgroundColor = "Black"
+  'TextWindow.Clear()
+EndSub
+
+'Subrutina para el título del programa
+
+Sub titulo
+ TextWindow.WriteLine("")
+ TextWindow.WriteLine("Cálculo del Indice de Masa Corporal")
+ TextWindow.WriteLine("===================================")
+ TextWindow.WriteLine("")
+ TextWindow.WriteLine("Ingreso de datos.")
+ TextWindow.WriteLine("")
+EndSub
+
+'Subrutina calculo de IMC
+ 
+Sub calculo_imc
+  imc = Math.Round(p/Math.Power(altura, 2))
+EndSub 
+
+'Subrutina análisis de IMC
+Sub analizadatos_imc
+ TextWindow.WriteLine("")
+If (imc<18.5) Then
+  TextWindow.WriteLine("Bajo peso y riesgo cardiovascular mínimo")
+ElseIf (imc>18.5 and imc<24.9) Then
+  TextWindow.WriteLine("Peso Normal y riesgo cardiovascular promedio")
+ElseIf (imc>25 and imc<29.9) Then
+  TextWindow.WriteLine("Sobrepeso y riesgo cardiovascular levemente aumentado")  
+ElseIf (imc>30) Then
+  TextWindow.WriteLine("Obesidad y riesgo cardiovascular aumentado")  
+Endif 
+EndSub
+
+'Subrutina análisis Presión Sistólica
+Sub analizadatos_ps
+TextWindow.WriteLine("")
+If (ps<120) Then
+  TextWindow.WriteLine("Presión sistólica óptima!")
+ElseIf (ps>120 and ps<129) Then
+  TextWindow.WriteLine("Presión sistólica normal")
+ElseIf (ps>130 and ps<139) Then
+  TextWindow.WriteLine("Presión sistólica normal alta")  
+ElseIf (ps>140) Then
+  TextWindow.WriteLine("Presión sistólica elevada, recuerde sus medicamentos y cuide su dieta. Consulte médico!")  
+Endif  
+EndSub
+
+'Subrutina análisis Presión Diastólica
+Sub analizadatos_pd
+TextWindow.WriteLine("")
+TextWindow.WriteLine("")
+If (pd<80) Then
+  TextWindow.WriteLine("Presión diastólica óptima!")
+ElseIf (pd>80 and pd<84) Then
+  TextWindow.WriteLine("Presión diastólica normal")
+ElseIf (pd>85 and pd<89) Then
+  TextWindow.WriteLine("Presión diastólica normal alta")  
+ElseIf (pd>90) Then
+  TextWindow.WriteLine("Presión diastólica elevada, recuerde sus medicamentos y cuide su dieta. Consulte médico!")  
+Endif  
+EndSub
+  
