@@ -1,0 +1,241 @@
+'===================================================
+' Seguimiento del  Indice de Masa Corporal y Presión Arterial
+'===================================================
+
+'Definimos configuración de la ventana
+
+configuracion() 'Llamado a la subrutina configuración()
+
+'Título del programa
+
+titulo() 'Llamado a la subrutina configuración()
+
+
+inicio:   'Marcador para ingreso al sistema
+TextWindow.Clear()
+TextWindow.WriteLine("Ingreso al Sistema")
+TextWindow.WriteLine("")
+TextWindow.Write("Escriba su nombre de usuario: ")
+user = TextWindow.Read() 'Leer
+TextWindow.WriteLine("")
+TextWindow.Write("Escriba su clave: ")
+passwd = TextWindow.Read() 'Leer
+TextWindow.WriteLine("")
+
+If (user = nombre And passwd = clave) Then
+  Goto programa   'Instrucción para saltar al marcador "programa:"
+Else
+  TextWindow.Clear()
+  TextWindow.WriteLine("")
+  TextWindow.Write("Nombre o clave incorrectos! ")
+  Program.Delay(2000)
+  TextWindow.WriteLine("")
+  Goto menu   'Instrucción para saltar al marcador "menu:"
+EndIf
+
+menu:    'Marcador para mostrar el menu de acceso
+TextWindow.Clear()
+menu2:    'Marcador para mostrar el menu2 de acceso desde el final
+TextWindow.WriteLine("")
+TextWindow.Write("Menú del Sistema")
+TextWindow.WriteLine("")
+TextWindow.WriteLine("")
+TextWindow.Write("1. Ingreso: ")
+TextWindow.WriteLine("")
+TextWindow.Write("2. Registro: ")
+TextWindow.WriteLine("")
+TextWindow.Write("3. Salir: ")
+TextWindow.WriteLine("")
+TextWindow.WriteLine("")
+TextWindow.Write("Ingrese opción: ")
+opcion = TextWindow.Read() 'Leer
+
+If (opcion = 1) Then 
+  Goto inicio   'Instrucción para saltar al marcador "inicio:"
+ElseIf (opcion = 2) Then
+  Goto registro   'Instrucción para saltar al marcador "registro:"
+ElseIf (opcion = 3) Then
+  Goto salir    'Instrucción para saltar al marcador "salir:"
+ElseIf (opcion = "") Then
+  Goto menu   'Instrucción para saltar al marcador "menu:"
+  EndIf
+
+registro:   'Marcador para registrase en el programa
+TextWindow.Clear()
+TextWindow.Write("Registrarse en el Sistema")
+TextWindow.WriteLine("")
+TextWindow.WriteLine("")
+TextWindow.Write("Escriba su nombre: ")
+nombre = TextWindow.Read() 'Leer
+TextWindow.WriteLine("")
+TextWindow.Write("Escriba su clave: ")
+clave = TextWindow.Read() 'Leer
+TextWindow.WriteLine("")
+
+TextWindow.Clear()
+
+TextWindow.WriteLine("Gracias por registrarse.")
+TextWindow.WriteLine("")
+Goto menu   'Instrucción para saltar al marcador "menu:"
+
+salir:    'Marcador para salir del programa
+TextWindow.Clear()
+TextWindow.WriteLine("")
+TextWindow.WriteLine("Finalizó su sesión!")
+Program.Delay(2000)
+Program.End()
+
+
+programa:   'Marcador para inciar el programa
+TextWindow.Clear()
+TextWindow.WriteLine("Bienvenido al programa")
+TextWindow.WriteLine("")
+TextWindow.WriteLine("")
+TextWindow.Write("Altura en metros: ")
+altura = TextWindow.ReadNumber()
+
+TextWindow.Clear() ' Limpiamos la pantalla
+
+TextWindow.WriteLine("")
+TextWindow.Write("Los registros durante 3 semanas. ")
+TextWindow.WriteLine("")
+
+For i = 1 To 3 'Con este ciclo For ingresaremos 5 lecturas
+  
+    TextWindow.WriteLine("")
+    TextWindow.WriteLine("Semana " + i + ": ")
+    TextWindow.WriteLine("")  
+    
+    'Definición de la matriz usuario para almacenar las mediciones
+    TextWindow.Write("Escriba su peso: ") 
+    usuario[i]["peso"] = TextWindow.ReadNumber() 'Lee el peso y lo almacena en la matriz o array usuario
+    TextWindow.Write("Escriba su presión sistólica: ") 
+    usuario[i]["psisto"] = TextWindow.ReadNumber() 'Lee la presión sistólica y la almacena 
+    TextWindow.Write("Escriba su presión diastólica: ") 
+    usuario[i]["pdiasto"] = TextWindow.ReadNumber() 'Lee la presión diastólica y la almacena 
+
+    'Cálculo de la suma de los valores durante las tres semanas
+    sumapeso = sumapeso + usuario[i]["peso"]
+    sumapsisto = sumapsisto + usuario[i]["psisto"]
+    sumapdiasto = sumapdiasto + usuario[i]["pdiasto"]
+
+    TextWindow.Clear()
+
+EndFor
+
+'Cálculo de valores promedios
+p  = (sumapeso/3) 'peso
+ps = Math.Round((sumapsisto/3)/Math.Power(altura, 2)) 'presión sistólica
+pd = Math.Round((sumapdiasto/3)/Math.Power(altura, 2)) 'presión diastólica
+
+TextWindow.Clear()
+
+TextWindow.WriteLine("===================================================")
+TextWindow.WriteLine("")
+TextWindow.WriteLine("Resultados.")
+TextWindow.WriteLine("")
+
+'Cálculo del Índice de Masa Corporal
+calculo_imc()
+
+'Presentación de resultados
+TextWindow.WriteLine("")
+TextWindow.Write("IMC en Kgrs/m2: ")
+TextWindow.WriteLine(imc)
+
+TextWindow.WriteLine("")
+TextWindow.Write("Presión Sistólica: ")
+TextWindow.WriteLine(ps)
+
+TextWindow.WriteLine("")
+TextWindow.Write("Presión Diastólica: ")
+TextWindow.WriteLine(pd)
+
+TextWindow.WriteLine("")
+TextWindow.Write("Diagnóstico: ")
+TextWindow.WriteLine("")
+
+'Análsis de resultado IMC
+analizadatos_imc()
+
+'Análsis de resultado presión sistólica
+analizadatos_ps()
+  
+'Análsis de resultado presión diastólica
+analizadatos_pd()
+
+TextWindow.WriteLine("")
+TextWindow.WriteLine("=======================FIN=========================")
+
+Program.Delay(4000)
+Goto menu2
+'===================================================
+
+'Subrutina de configuración de la ventana
+
+Sub configuracion
+  TextWindow.Title = "Seguimiento del IMC y la Presión Arterial"
+  TextWindow.ForegroundColor = "Red"
+  TextWindow.BackgroundColor = "Black"
+  'TextWindow.Clear()
+EndSub
+
+'Subrutina para el título del programa
+
+Sub titulo
+ TextWindow.WriteLine("")
+ TextWindow.WriteLine("Cálculo del Indice de Masa Corporal y Presión Arterial")
+ TextWindow.WriteLine("======================================================")
+ TextWindow.WriteLine("")
+ TextWindow.WriteLine("Ingreso de datos.")
+ TextWindow.WriteLine("")
+EndSub
+
+'Subrutina calculo de IMC
+ 
+Sub calculo_imc
+  imc = Math.Round(p/Math.Power(altura, 2))
+EndSub 
+
+'Subrutina análisis de IMC
+Sub analizadatos_imc
+ TextWindow.WriteLine("")
+If (imc<18.5) Then
+  TextWindow.WriteLine("Bajo peso y riesgo cardiovascular mínimo")
+ElseIf (imc>18.5 and imc<24.9) Then
+  TextWindow.WriteLine("Peso Normal y riesgo cardiovascular promedio")
+ElseIf (imc>25 and imc<29.9) Then
+  TextWindow.WriteLine("Sobrepeso y riesgo cardiovascular levemente aumentado")  
+ElseIf (imc>30) Then
+  TextWindow.WriteLine("Obesidad y riesgo cardiovascular aumentado")  
+Endif 
+EndSub
+
+'Subrutina análisis Presión Sistólica
+Sub analizadatos_ps
+TextWindow.WriteLine("")
+If (ps<120) Then
+  TextWindow.WriteLine("Presión sistólica óptima!")
+ElseIf (ps>120 and ps<129) Then
+  TextWindow.WriteLine("Presión sistólica normal")
+ElseIf (ps>130 and ps<139) Then
+  TextWindow.WriteLine("Presión sistólica normal alta")  
+ElseIf (ps>140) Then
+  TextWindow.WriteLine("Presión sistólica elevada, recuerde sus medicamentos y cuide su dieta. Consulte médico!")  
+Endif  
+EndSub
+
+'Subrutina análisis Presión Diastólica
+Sub analizadatos_pd
+TextWindow.WriteLine("")
+TextWindow.WriteLine("")
+If (pd<80) Then
+  TextWindow.WriteLine("Presión diastólica óptima!")
+ElseIf (pd>80 and pd<84) Then
+  TextWindow.WriteLine("Presión diastólica normal")
+ElseIf (pd>85 and pd<89) Then
+  TextWindow.WriteLine("Presión diastólica normal alta")  
+ElseIf (pd>90) Then
+  TextWindow.WriteLine("Presión diastólica elevada, recuerde sus medicamentos y cuide su dieta. Consulte médico!")  
+Endif  
+EndSub
